@@ -5,6 +5,15 @@ import sympy as sp
 x1, x2, x3, lam = sp.symbols('x1 x2 x3 lam')
 
 
+# Численное решение с заданным параметром
+def solve_with_param(param):
+    # Начальное предположение для численного решения
+    initial_guess = [0, 0, 0]
+    matrix = equations(param)
+    result = sp.nsolve(matrix, (x1, x2, x3), initial_guess)
+    return result
+
+
 def check_solution(A, X):
     check = A * X
     print("A * X =")
@@ -50,6 +59,7 @@ try:
         solution = eq.solve_least_squares(B)
 
         print(f"\n{lambda_i+1}-ое решение:")
+        print(f"lambda = {linsolve_a[lambda_i].evalf()}")
         for i in range(solution.shape[0]):
             print(f"x{i+1} = {solution[i]}")
 
@@ -66,6 +76,7 @@ try:
         solution = sp.solve(eq, (x1, x2, x3))
 
         print(f"\n{lambda_i+1}-ое решение:")
+        print(f"lambda = {linsolve_a[lambda_i]}")
         if len(solution) > 0:
             for key, value in solution.items():
                 print(f"{key} = {value}")
@@ -73,6 +84,14 @@ try:
                 print("Система имеет бесконечно много решений!")
         else:
             print("Система несовместна!")
+
+    # Численное решение с заданным параметром
+    param = 1  # задание параметра
+    nsolve_result = solve_with_param(param)
+    print("\nРешение методом .nsolve (численное) с введенным параметром:")
+    print(f"lambda = {param}")
+    for i in range(nsolve_result.shape[0]):
+        print(f"x{i+1} = {nsolve_result[i]}")
 
 except ValueError as e:
     print(e)
