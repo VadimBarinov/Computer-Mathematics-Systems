@@ -1,0 +1,34 @@
+with (Maplets[Elements]):
+maplet := 
+Maplet('onstartup'='Action1','reference'='Maplet1',
+	Label('background'="#FFFFFF",'caption'="Введите функцию от x",'enabled'='true','foreground'="#000000",'reference'='Label1','visible'='true'),
+	TextField('background'="#FFFFFF",'editable'='true','enabled'='true','foreground'="#000000",'halign'='left','reference'='TextField1','visible'='true','width'='20'),
+	Action('reference'='clickButton1',
+		Evaluate('function'='diff(TextField1, x)',`option`="value",'target'='TextField2','waitforresult'='true')),
+	Button('background'="#D6D3CE",'caption'="Посчитать производную",'enabled'='true','foreground'="#000000",'onclick'='clickButton1','reference'='Button1','visible'='true'),
+	TextField('background'="#FFFFFF",'editable'='true','enabled'='false','foreground'="#000000",'halign'='left','reference'='TextField2','visible'='true','width'='20'),
+	Action('reference'='clickButton2',
+		Evaluate('function'='plot(diff(TextField1, x), x=-10..10)',`option`="value",'target'='Plotter1','waitforresult'='true')),
+	Button('background'="#D6D3CE",'caption'="Построить график производной",'enabled'='true','foreground'="#000000",'onclick'='clickButton2','reference'='Button2','visible'='true'),
+	Plotter('background'="#FFFFFF",'continuous'='true','delay'='100','height'='400','reference'='Plotter1','visible'='true','width'='400'),
+	BoxLayout('background'="#FFFFFF",'border'='false','halign'='center','inset'='5','reference'='BoxLayout1','valign'='center','vertical'='false','visible'='true',
+		BoxColumn(
+			BoxRow(
+				BoxColumn(
+					BoxCell('hscroll'='never','value'='Label1','vscroll'='never')),
+				BoxColumn(
+					BoxCell('hscroll'='never','value'='TextField1','vscroll'='never'))),
+			BoxRow(
+				BoxColumn(
+					BoxCell('hscroll'='never','value'='Button1','vscroll'='never')),
+				BoxColumn(
+					BoxCell('hscroll'='never','value'='TextField2','vscroll'='never'))),
+			BoxRow(
+				BoxCell('hscroll'='never','value'='Button2','vscroll'='never'))),
+		BoxColumn(
+			BoxCell('hscroll'='never','value'='Plotter1','vscroll'='never'))),
+	Window('layout'='BoxLayout1','reference'='Window1','resizable'='true','title'="Maplet"),
+	Action('reference'='Action1',
+		RunWindow('window'='Window1'))):
+
+Maplets[Display](maplet);
